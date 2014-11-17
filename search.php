@@ -23,31 +23,45 @@ $Search = $_GET['Search'];
         <script src="js/vendor/modernizr-2.6.2.min.js"></script>
 
         <?php
-        /*
-            require("handler.php");
+                        
+                            require("handler.php");
 
-            $query = $handler->query("SELECT * FROM RWApplicants WHERE FirstName ='$Search'");
-            $r = $query->fetch();
-            if($r){
-                echo "first";
-                $lastName = $r['LastName'];
-                $firstName =$r['FirstName'];
-            }else{
-                $query = $handler->query("SELECT * FROM RWApplicants WHERE LastName ='$Search'");
-                $r = $query->fetch();
-                    if($r){
-                        $firstName = $r['FirstName'];
-                        $lastName = $r['LastName'];
-                        echo "last";
-                    }else{
-                        echo "no return";
-                    }
-            }
-            //$dbuser = $r['Username'];
-            //$dbpass = $r['Password'];
-            //$dbbux = $r['Bux'];
-            $handler = null;
-        */
+                            $query = $handler->query("SELECT ID, FullName FROM RWApplicants WHERE FirstName ='$Search'");
+                            $r = $query->fetchAll();
+                            if($r){
+                                
+                                    echo "first"; //checking for search from first name or last name
+                                        //print_r($r);
+                                    $num = 0;
+                                    $nRows = count($r);
+                                    $aRows = $nRows - 1;
+                                    /*
+                                    while($r[$num] >= $aRows){
+                                        $fullName = $r[$num]['FullName'];
+                                        $nameID = $r[$num]['ID'];
+
+                                        echo "<a href=info.php?ID=" . $nameID . ">$fullName</a><br/>";
+                                        $num = $num +1;
+                                    }*/
+
+                            }else{
+                                $r = null;
+                                require("handler.php");
+                                $query = $handler->query("SELECT ID, FullName FROM RWApplicants WHERE LastName ='$Search'");
+                                $r = $query->fetchAll();
+                                    if($r){
+                                        echo "last";
+                                        $num = 0;
+                                        $nRows = count($r);
+                                        $aRows = $nRows - 1;
+                                        /*
+                                        while($r[$num] >= $aRows){
+                                            $fullName = $r[$num]['FullName'];
+                                            $nameID = $r[$num]['ID'];
+                                            echo "<a href=info.php?ID=" . $nameID . ">$fullName</a><br/>";
+                                            $num = $num +1;*/
+                                    }
+                            }
         ?>
     </head>
     <body>
@@ -77,49 +91,13 @@ $Search = $_GET['Search'];
                     </div>
                     <div id="content">
                         <?php
-                        
-                            require("handler.php");
+                            while($r[$num] > $aRows){
+                            $fullName = $r[$num]['FullName'];
+                            $nameID = $r[$num]['ID'];
 
-                            $query = $handler->query("SELECT * FROM RWApplicants WHERE FirstName ='$Search'");
-                            $r = $query->fetch();
-                            if($r){
-                                echo "first";
-                                    while($r=mysql_fetch_array($rss)){ 
-                                            $fName = $r['FirstName'];
-                                            $lName = $r['LastName'];
-                                            echo "$fName $lName";
-                                        }
-                                /*foreach($r as $rs){
-                                            echo $rs['FirstName'];
-                                            echo $rs['LastName'];
-                                        }*/
-                                //$lastName = $r['LastName'];
-                                //$firstName =$r['FirstName'];
-                            }else{
-                                $query = $handler->query("SELECT * FROM RWApplicants WHERE LastName ='$Search'");
-                                $r = $query->fetch();
-                                    if($r){
-                                        while($r=mysql_fetch_array($rss)){ 
-                                            $fName = $r['FirstName'];
-                                            $lName = $r['LastName'];
-                                            echo "$fName $lName";
-                                        }
-                                        /*foreach($r as $rs){
-                                            echo $r['FirstName'];
-                                            echo $r['LastName'];
-                                        }
-                                        //$firstName = $r['FirstName'];
-                                        //$lastName = $r['LastName'];
-                                        echo "last";*/
-                                    }else{
-                                        echo "no return";
-                                    }
-                            }
-                            //$dbuser = $r['Username'];
-                            //$dbpass = $r['Password'];
-                            //$dbbux = $r['Bux'];
-                            $handler = null;
-                        ?>
+                            echo "<a href=info.php?ID=" . $nameID . ">$fullName</a><br/>";
+                            $num = $num +1;
+                                    }?>
                     </div>
                     <div id="footer">
                     </div>

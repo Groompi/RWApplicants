@@ -99,9 +99,11 @@ $lName = $_SESSION['Lname'];
 													if($sDate){
 														if($eDate){
 															require("handler.php");
-															$sql = "INSERT INTO RWApplicants (FirstName, LastName, EmergencyNumber, EmergencyName, EmplSign, DateSignup, DateExpire) VALUES (:fn,:ln,:en,:ena,:es,:ds,:de)";
+															$fuName = "$fName" . " " . "$lName";
+
+															$sql = "INSERT INTO RWApplicants (FirstName, LastName, EmergencyNumber, EmergencyName, EmplSign, DateSignup, DateExpire, FullName) VALUES (:fn,:ln,:en,:ena,:es,:ds,:de,:fun)";
 															$q = $handler->prepare($sql);
-															$q->execute(array('fn'=>$fName,'ln'=>$lName,'en'=>$eNumber,'ena'=>$eName,'es'=>$empSignup,'ds'=>$sDate,'de'=>$eDate));
+															$q->execute(array('fn'=>$fName,'ln'=>$lName,'en'=>$eNumber,'ena'=>$eName,'es'=>$empSignup,'ds'=>$sDate,'de'=>$eDate, 'fun'=>$fuName));
 															echo "Added Succesfully $form";
 														}else{
 															echo "You did not enter the Expiration Date $form";//edate
