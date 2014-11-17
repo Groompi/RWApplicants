@@ -60,6 +60,8 @@ $Search = $_GET['Search'];
                                             $nameID = $r[$num]['ID'];
                                             echo "<a href=info.php?ID=" . $nameID . ">$fullName</a><br/>";
                                             $num = $num +1;*/
+                                    }else{
+                                        $fS = "Your search for <b>$Search</b> did not match any etnries. ";
                                     }
                             }
         ?>
@@ -91,6 +93,7 @@ $Search = $_GET['Search'];
                     </div>
                     <div id="content">
                         <?php
+                            echo $fS;
                             while($r[$num] > $aRows){
                             $fullName = $r[$num]['FullName'];
                             $nameID = $r[$num]['ID'];
