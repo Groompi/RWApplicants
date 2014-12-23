@@ -5,121 +5,115 @@ session_start();
 <?php
 $Search = $_GET['Search'];
 ?>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title></title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CCRW: Search</title>
 
-        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap-extensions.css" rel="stylesheet"> 
 
-        <link rel="stylesheet" href="css/normalize.css">
-        <link rel="stylesheet" href="css/main.css">
-        <script src="js/vendor/modernizr-2.6.2.min.js"></script>
-
-        <?php
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <?php
                         
                             require("handler.php");
 
-                            $query = $handler->query("SELECT ID, FullName FROM RWApplicants WHERE FirstName ='$Search'");
+                            $query = $handler->query("SELECT * FROM RWApplicants WHERE FirstName ='$Search' ORDER BY LastName");
                             $r = $query->fetchAll();
                             if($r){
                                 
-                                    echo "first"; //checking for search from first name or last name
+                                    //echo "first"; //checking for search from first name or last name
                                         //print_r($r);
                                     $num = 0;
                                     $nRows = count($r);
                                     $aRows = $nRows - 1;
-                                    /*
-                                    while($r[$num] >= $aRows){
-                                        $fullName = $r[$num]['FullName'];
-                                        $nameID = $r[$num]['ID'];
-
-                                        echo "<a href=info.php?ID=" . $nameID . ">$fullName</a><br/>";
-                                        $num = $num +1;
-                                    }*/
 
                             }else{
                                 $r = null;
                                 require("handler.php");
-                                $query = $handler->query("SELECT ID, FullName FROM RWApplicants WHERE LastName ='$Search'");
+                                $query = $handler->query("SELECT * FROM RWApplicants WHERE LastName ='$Search' ORDER BY LastName");
                                 $r = $query->fetchAll();
                                     if($r){
                                         echo "last";
                                         $num = 0;
                                         $nRows = count($r);
                                         $aRows = $nRows - 1;
-                                        /*
-                                        while($r[$num] >= $aRows){
-                                            $fullName = $r[$num]['FullName'];
-                                            $nameID = $r[$num]['ID'];
-                                            echo "<a href=info.php?ID=" . $nameID . ">$fullName</a><br/>";
-                                            $num = $num +1;*/
                                     }else{
-                                        $fS = "Your search for <b>$Search</b> did not match any etnries. ";
+                                        $fS = "<span class='alert cntTbl alert-danger'>Your search for <b>$Search</b> did not match any etnries. </span>";
                                     }
                             }
+
+
         ?>
-    </head>
-    <body>
-        <!--[if lt IE 7]>
-            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-        <![endif]-->
-
-        <!-- Add your site or application content here -->
-        <div id="pageWrapper">           
-                <div id="header">
-                </div>
-                <div id="ctent">
-                    <div id="searchMenu">
-                        <div id="SearchContent">
-                            <?php
-                            $searchForm = "
-                            <form  method='get' action='search.php'  id='searchform'> 
-                                <input  type='text' name='Search'> 
-                                <input  type='submit' value='Search'> 
-                            </form>";
-
-                            echo $searchForm;
-                            ?>
-                        </div>
-                    </div>
-                    <div id="menu">
-                    </div>
-                    <div id="content">
-                        <?php
-                            echo $fS;
-                            while($r[$num] > $aRows){
-                            $fullName = $r[$num]['FullName'];
-                            $nameID = $r[$num]['ID'];
-
-                            echo "<a href=info.php?ID=" . $nameID . ">$fullName</a><br/>";
-                            $num = $num +1;
-                                    }?>
-                    </div>
-                    <div id="footer">
-                    </div>
-                </div>
+  </head>
+  <body>
+    <nav class="navbar navbar-inverse" role="navigation">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.php">CCRW RockWall</a>
+    </div>
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="index.php">Search</a></li>
+        <li><a href="userAdd.php">Add User</a></li>
+        <li><a href="DispAll.php">Members</a></li>
+      </ul>
+      <form action='search.php' method='get' class='navbar-form navbar-right'>
+        <div class='form-group'>
+          <input type='text' class='form-control' placeholder='Search' name='Search'>
         </div>
-
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.10.2.min.js"><\/script>')</script>
-        <script src="js/plugins.js"></script>
-        <script src="js/main.js"></script>
-
-        <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
-        <script>
-            (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
-            function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
-            e=o.createElement(i);r=o.getElementsByTagName(i)[0];
-            e.src='//www.google-analytics.com/analytics.js';
-            r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
-            ga('create','UA-XXXXX-X');ga('send','pageview');
-        </script>
-    </body>
+        <button type='submit' class='btn btn-default' value='Search'>Search</button>
+      </form>
+    </div>
+  </nav>
+      <table class="table table-striped">
+        <tr>
+          <td><b>Full Name</b><td>
+          <td><b>First Name</b></td>
+          <td><b>Last Name</b></td>
+          <td><b>Age</b></td>
+          <td><b>Date Signup</b></td>
+          <td><b>More Info</b></td>
+        </tr>
+         <?php
+            while($r[$num] > $aRows){
+            $fullName = $r[$num]['FullName'];
+            $nameID = $r[$num]['id'];
+            $fName = $r[$num]['FirstName'];
+            $lName = $r[$num]['LastName'];
+            $dateS = $r[$num]['DateSignup'];
+            $age = $r[$num]['Age'];
+            $each = "<tr>
+          <td>$fullName<td>
+          <td>$fName</td>
+          <td>$lName</td>
+          <td>$age</td>
+          <td>$dateS</td>
+          <td><a href=info.php?ID=" . $nameID . "><span class='btn btn-info btn-sm'>More Info</td>
+        </tr>";
+        echo $each;
+            $num = $num +1;
+            }?>
+          </table>
+          <?php echo $fS;?>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+  </body>
 </html>

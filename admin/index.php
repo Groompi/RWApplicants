@@ -16,6 +16,21 @@
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+
+    <?php
+    $loginform = "<form action='index.php' method='post' class='container center_div'>
+        <div class='form-group'>
+          <input type='text' class='form-control' placeholder='user' name='uName'>
+        </div>
+        <div class='form-group'>
+          <input type='password' class='form-control' placeholder='password' name='pWord'>
+        </div>
+
+        <button type='submit' class='btn btn-primary btn-xlarge center-block' name='loginbtn' value='login'>Login</button>
+      </form>"
+    ?>
+
+
   </head>
   <body>
     <nav class="navbar navbar-inverse" role="navigation">
@@ -36,12 +51,6 @@
         <li><a href="userAdd.php">Add User</a></li>
         <li><a href="DispAll.php">Members</a></li>
       </ul>
-      <form action='search.php' method='get' class='navbar-form navbar-right'>
-        <div class='form-group'>
-          <input type='text' class='form-control' placeholder='Search' name='Search'>
-        </div>
-        <button type='submit' class='btn btn-default' value='Search'>Search</button>
-      </form>
     </div>
   </nav>
   </br>
@@ -50,12 +59,15 @@
   </br>
   </br>
   </br>
-  <form action='search.php' method='get' id='searchform' class='container center_div'>
+      <form action='index.php' method='post' class='container center_div'>
         <div class='form-group'>
-          <input type='text' class='form-control' placeholder='Search by Firstname or Lastname' name='Search'>
+          <input type='text' class='form-control' placeholder='Username' name='uName'>
+        </div>
+        <div class='form-group'>
+          <input type='password' class='form-control' placeholder='Password' name='pWord'>
         </div>
 
-        <button type='submit' class='btn btn-primary btn-xlarge center-block' value='Search'>Search</button>
+        <button type='submit' class='btn btn-primary btn-xlarge center-block' name='loginbtn' value='login'>Login</button>
       </form>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
