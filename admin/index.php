@@ -1,3 +1,9 @@
+<?php
+session_start();
+error_reporting (E_ALL ^ E_NOTICE);
+$Username = $_SESSION['Username'];
+$ID = $_SESSION['ID'];
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -18,7 +24,14 @@
     <![endif]-->
 
     <?php
-    $loginform = "<form action='index.php' method='post' class='container center_div'>
+    $loginform = "
+        </br>
+        </br>
+        </br>
+        </br>
+        </br>
+        </br>
+        <form action='index.php' method='post' class='container center_div'>
         <div class='form-group'>
           <input type='text' class='form-control' placeholder='user' name='uName'>
         </div>
@@ -27,48 +40,74 @@
         </div>
 
         <button type='submit' class='btn btn-primary btn-xlarge center-block' name='loginbtn' value='login'>Login</button>
-      </form>"
+      </form>";
+
+         include('./include/nav.php');
+         include('./include/search.php');
     ?>
 
 
   </head>
   <body>
-    <nav class="navbar navbar-inverse" role="navigation">
-  <div class="container-fluid">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="index.php">CCRW RockWall</a>
-    </div>
-      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav">
-        <li class="active"><a href="index.php">Search</a></li>
-        <li><a href="userAdd.php">Add User</a></li>
-        <li><a href="DispAll.php">Members</a></li>
-      </ul>
-    </div>
-  </nav>
-  </br>
-  </br>
-  </br>
-  </br>
-  </br>
-  </br>
-      <form action='index.php' method='post' class='container center_div'>
-        <div class='form-group'>
-          <input type='text' class='form-control' placeholder='Username' name='uName'>
-        </div>
-        <div class='form-group'>
-          <input type='password' class='form-control' placeholder='Password' name='pWord'>
-        </div>
 
-        <button type='submit' class='btn btn-primary btn-xlarge center-block' name='loginbtn' value='login'>Login</button>
-      </form>
+      <?php
+      if ($Username && $ID){
+        echo $naviYes;
+        echo $search;
+
+      }else{
+          if ($_POST['loginbtn']){
+            $user = $_POST['uName'];
+            $password = $_POST['pWord'];
+              if($user){
+                if($password){
+                  require("./include/handler.php");
+                  $password = md5(md5("h4Er9".$password."llKo0jL"));
+
+                  $query = $handler->query("SELECT * FROM Accounts WHERE username='$user'");
+                  $r = $query->fetch();
+                  $dbuser = $r['Username'];
+                  $dbpass = $r['Password'];
+                  $dbId = $r['id'];
+                  $handler = null;
+                  if($dbpass == $password){
+                    $_SESSION['Username'] = $dbuser;
+                    $_SESSION['ID'] = $dbId;
+                    echo '<script type="text/javascript">'
+                       , 'location.reload();'
+                       , '</script>'
+                    ;
+                  }else{
+                    echo $naviNo;
+                    echo "The Password/Username combination was  incorrect please try again. $loginform";
+                  }
+                  //---To-Do---
+                  //Manage Users
+                  // -Remove
+                  // -Add
+                  // -Excel Import
+                  //Add Admins
+                  // -Add
+                  // -Remove
+                  // -Permissions
+                  // Users & Admin Combo
+                }else{//password
+                  echo $naviNo;
+                  echo "Please enter a password $loginform";
+                }
+              }else{//username
+                echo $naviNo;
+
+                echo "<span class='alert cntTbl alert-danger center_div'>Please enter a username</span>
+                 $loginform";
+              }
+
+            }else{ //post login
+              echo $naviNo;
+              echo $loginform;
+            }
+          }
+      ?>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->

@@ -13,3 +13,9 @@
 .fntInf{
 	font-size: 20px;
 }
+.mLin{
+    float: right;
+    width: auto;
+    height: auto;
+    color: white;
+}
