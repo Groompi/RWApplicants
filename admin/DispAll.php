@@ -1,10 +1,13 @@
 <?php
 session_start();
 error_reporting (E_ALL ^ E_NOTICE);
+$Username = $_SESSION['Username'];
+$ID = $_SESSION['ID'];
 ?>
 <!DOCTYPE html>
 <?php
 $Search = $_GET['Search'];
+include ('./include/nav.php');
 ?>
 <html lang="en">
   <head>
@@ -25,7 +28,7 @@ $Search = $_GET['Search'];
     <![endif]-->
     <?php
                         
-                            require("handler.php");
+                            require("./include/handler.php");
 
                             $query = $handler->query("SELECT * FROM RWApplicants WHERE Active ='1' ORDER BY LastName");
                             $r = $query->fetchAll();
@@ -39,51 +42,28 @@ $Search = $_GET['Search'];
 
 
         ?>
-  </head>
-  <body>
-    <nav class="navbar navbar-inverse" role="navigation">
-  <div class="container-fluid">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="index.php">CCRW RockWall</a>
-    </div>
-      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav">
-        <li><a href="index.php">Search</a></li>
-        <li><a href="userAdd.php">Add User</a></li>
-        <li class="active"><a href="DispAll.php">Members</a></li>
-      </ul>
-      <form action='search.php' method='get' class='navbar-form navbar-right'>
-        <div class='form-group'>
-          <input type='text' class='form-control' placeholder='Search' name='Search'>
-        </div>
-        <button type='submit' class='btn btn-default' value='Search'>Search</button>
-      </form>
-    </div>
-  </nav>
-      <table class="table table-striped">
-        <tr>
+
+        <?php
+        if ($Username && $ID){
+              $each ="<tr>
+          <td>$fullName<td>
+          <td>$fName</td>
+          <td>$lName</td>
+          <td>$age</td>
+          <td>$dateS</td>
+          <td><a href=info.php?ID=" . $nameID . "><span class='btn btn-info btn-sm'>More Info</td>" .
+          "<td><a href=del.php?ID=" . $nameID . "><span class='btn btn-info btn-sm'>Delete</td>" .
+        "</tr>";
+              $TableHeader ="<tr>
           <td><b>Full Name</b><td>
           <td><b>First Name</b></td>
           <td><b>Last Name</b></td>
           <td><b>Age</b></td>
           <td><b>Date Signup</b></td>
           <td><b>More Info</b></td>
-        </tr>
-         <?php
-            while($r[$num] > $aRows){
-            $fullName = $r[$num]['FullName'];
-            $nameID = $r[$num]['id'];
-            $fName = $r[$num]['FirstName'];
-            $lName = $r[$num]['LastName'];
-            $dateS = $r[$num]['DateSignup'];
-            $age = $r[$num]['Age'];
+          <td><b>Delete</b></td>
+        </tr>";
+            }else{
             $each = "<tr>
           <td>$fullName<td>
           <td>$fName</td>
@@ -92,6 +72,54 @@ $Search = $_GET['Search'];
           <td>$dateS</td>
           <td><a href=info.php?ID=" . $nameID . "><span class='btn btn-info btn-sm'>More Info</td>
         </tr>";
+          $TableHeader ="<tr>
+          <td><b>Full Name</b><td>
+          <td><b>First Name</b></td>
+          <td><b>Last Name</b></td>
+          <td><b>Age</b></td>
+          <td><b>Date Signup</b></td>
+          <td><b>More Info</b></td>
+        </tr>";
+      }
+        ?>
+  </head>
+  <body>
+    <?php
+      if($Username && $ID){
+        echo $naviYes;
+      }else{
+        echo $naviNo;
+      }
+    ?>
+      <table class="table table-striped">
+         <?php echo $TableHeader;?>
+         <?php
+            while($r[$num] > $aRows){
+            $fullName = $r[$num]['FullName'];
+            $nameID = $r[$num]['id'];
+            $fName = $r[$num]['FirstName'];
+            $lName = $r[$num]['LastName'];
+            $dateS = $r[$num]['DateSignup'];
+            $age = $r[$num]['Age'];
+            if ($Username && $ID){
+              $each ="<tr>
+          <td>$fullName<td>
+          <td>$fName</td>
+          <td>$lName</td>
+          <td>$age</td>
+          <td>$dateS</td>
+          <td><a href=info.php?ID=" . $nameID . "><span class='btn btn-info btn-sm'>More Info</td>" .
+          "<td><a href=del.php?ID=" . $nameID . "><span class='btn btn-info btn-sm'>Delete</td>" .
+        "</tr>";
+            }else{
+            $each = "<tr>
+          <td>$fullName<td>
+          <td>$fName</td>
+          <td>$lName</td>
+          <td>$age</td>
+          <td>$dateS</td>
+          <td><a href=info.php?ID=" . $nameID . "><span class='btn btn-info btn-sm'>More Info</td>
+        </tr>";}
         echo $each;
             $num = $num +1;
             }?>

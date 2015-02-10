@@ -50,6 +50,7 @@
           <a href='#' class='dropdown-toggle' data-toggle='dropdown' role='button' aria-expanded='false'>$Username <span class='caret'></span></a>
           <ul class='dropdown-menu' role='menu'>
             <li><a href='#'>Admin</a></li>
+            <li><a href='./../Admin/pending.php'>Pending</a></li>
             <li class='divider'></li>
             <li><a href='logout.php'>Logout</a></li>
           </ul>

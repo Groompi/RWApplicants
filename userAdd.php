@@ -1,5 +1,6 @@
 <?php 
 session_start();
+error_reporting (E_ALL ^ E_NOTICE);
 ?>
 
 <!DOCTYPE html>
@@ -99,6 +100,7 @@ if($_POST['regbtn']){
                 $sDate = $_POST['sDate'];
                 $eDate = $_POST['eDate'];
                 $Age = $_POST['Age'];
+                $aTive = 0;
 
                 if ($fName){
                   if($lName){
@@ -111,9 +113,9 @@ if($_POST['regbtn']){
                                 require("handler.php");
                                 $fuName = "$lName" . " " . "$fName";
 
-                                $sql = "INSERT INTO RWApplicants (FirstName, LastName, Age, EmergencyNumber, EmergencyName, EmplSign, DateSignup, DateExpire, FullName) VALUES (:fn,:ln, :a, :en,:ena,:es,:ds,:de,:fun)";
+                                $sql = "INSERT INTO RWApplicants (FirstName, LastName, Age, EmergencyNumber, EmergencyName, EmplSign, DateSignup, DateExpire, FullName, Active) VALUES (:fn,:ln, :a, :en,:ena,:es,:ds,:de,:fun,:Ac)";
                                 $q = $handler->prepare($sql);
-                                $q->execute(array('fn'=>$fName,'ln'=>$lName,'a'=>$Age, 'en'=>$eNumber,'ena'=>$eName,'es'=>$empSignup,'ds'=>$sDate,'de'=>$eDate, 'fun'=>$fuName));
+                                $q->execute(array('fn'=>$fName,'ln'=>$lName,'a'=>$Age, 'en'=>$eNumber,'ena'=>$eName,'es'=>$empSignup,'ds'=>$sDate,'de'=>$eDate, 'fun'=>$fuName, 'Ac'=>$aTive));
                                 $Success = "<div class='alert alert-success div_center' role='alert'>User $fName Added Succesfully.</div>";
                                 echo $Success;
                                 echo $form; 
